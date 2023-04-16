@@ -5,5 +5,7 @@ Batch kodlama dili üzerinde hazırladığım bu çalışma sistem üzerinde yü
 League of Legends oynarken bazen farklı sunucuları deneyimlemek isteyebiliyoruz. Farklı sunucularda her dil için seçme imkanı verilmiyor. Bu araç ile istediğiniz dili seçerek değişim işlemi yapabilirsiniz. Değişim işleminden sonra oyun ilk açıldığında dil dosyalarını indirecektir. Her dil genellikle 2 GB boyutunda olur.
 
 ![title2](https://github.com/OgnitorenKs/League-of-Legends---Language-Change-/blob/main/.github/cmd_30VnUEjyUR.png?raw=true)
+
 ![title3](https://github.com/OgnitorenKs/League-of-Legends---Language-Change-/blob/main/.github/cmd_beZMb26eNZ.png?raw=true)
+
 ![title4](https://github.com/OgnitorenKs/League-of-Legends---Language-Change-/blob/main/.github/xZZ8YOmqtI.png?raw=true)
