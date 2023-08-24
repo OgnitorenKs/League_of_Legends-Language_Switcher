@@ -3,10 +3,8 @@ setlocal enabledelayedexpansion
 chcp 65001
 cls
 title League of Legends Change Language │ OgnitorenKs
-
 reg query "HKU\S-1-5-19" > NUL 2>&1
 	if %errorlevel% NEQ 0 (Call :Powershell "Start-Process '%L%\LOL.Language.Switcher.cmd' -Verb Runas"&exit)
-
 MD %AppData%\OgnitorenKs\LOL.Change.Language > NUL 2>&1
 DEL /F /Q /A "%Temp%\LOL_Disk" > NUL 2>&1
 DEL /F /Q /A "%Temp%\LOL_Switcher" > NUL 2>&1
