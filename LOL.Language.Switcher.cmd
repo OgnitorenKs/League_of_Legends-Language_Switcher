@@ -3,35 +3,39 @@ setlocal enabledelayedexpansion
 chcp 65001
 cls
 title League of Legends Change Language │ OgnitorenKs
+
+reg query "HKU\S-1-5-19" > NUL 2>&1
+	if %errorlevel% NEQ 0 (Call :Powershell "Start-Process '%L%\LOL.Language.Switcher.cmd' -Verb Runas"&exit)
+
 MD %AppData%\OgnitorenKs\LOL.Change.Language > NUL 2>&1
-DEL /F /Q /A "%AppData%\OgnitorenKs\LOL.Change.Language\Disk" > NUL 2>&1
-DEL /F /Q /A "%AppData%\OgnitorenKs\LOL.Change.Language\Number" > NUL 2>&1
+DEL /F /Q /A "%Temp%\LOL_Disk" > NUL 2>&1
+DEL /F /Q /A "%Temp%\LOL_Switcher" > NUL 2>&1
 for /F "tokens=1,2 delims=#" %%a in ('"prompt #$H#$E#&echo on&for %%b in (1) do rem"') do (set R=%%b)
 set Error=0
 chcp 437 > NUL
 for /f "skip=3 tokens=1 delims= " %%a in ('Powershell -command "Get-CimInstance -ClassName Win32_LogicalDisk | Select-Object -Property DeviceID"') do (
 	chcp 65001 > NUL
-	echo Disk = %%a >> %AppData%\OgnitorenKs\LOL.Change.Language\Disk
+	echo Disk = %%a >> %Temp%\LOL_Disk
 )
 :LOL_Auto_Location
 cls
 echo.&echo  %R%[90m...%R%[96mSearching League of Legends%R%[90m...%R%[0m
 set Number=0
 echo.
-FOR /F "tokens=3" %%a in ('Findstr /i "Disk" %AppData%\OgnitorenKs\LOL.Change.Language\Disk 2^>NUL') do (
+FOR /F "tokens=3" %%a in ('Findstr /i "Disk" %Temp%\LOL_Disk 2^>NUL') do (
 	FOR /F "tokens=*" %%b in ('dir /b /s %%a\*LeagueClient.exe 2^>NUL') do (
 		set /a Number+=1
 		echo   %R%[32m!Number!-%R%[33m "%%b"%R%[0m
-		echo [LOL_!Number!]=%%b >> %AppData%\OgnitorenKs\LOL.Change.Language\Number
+		echo [LOL_!Number!]=%%b >> %Temp%\LOL_Switcher
 	)
 )
-Findstr /i "[LOL_1]" %AppData%\OgnitorenKs\LOL.Change.Language\Number > NUL 2>&1
+Findstr /i "[LOL_1]" %Temp%\LOL_Switcher > NUL 2>&1
 	if %errorlevel% NEQ 0 (echo %R%[31m League of Legends is not installed%R%[0m
 						   set Error=1)
 echo.
 set /p Value=►%R%[32m Select Location: %R%[0m
 	if %Error% EQU 1 (goto LOL_Location)
-FOR /F "delims='=' tokens=2" %%g in ('findstr /i "LOL_%Value%" %AppData%\OgnitorenKs\LOL.Change.Language\Number') do (set LOL_Location=%%g)
+FOR /F "delims='=' tokens=2" %%g in ('Findstr /i "LOL_%Value%" %Temp%\LOL_Switcher') do (set LOL_Location=%%g)
 :Select_Langugage
 cls
 echo.&echo %R%[96m Language Menu %R%[0m
@@ -100,3 +104,8 @@ echo.
 echo %R%[96m The patching process has been completed successfully%R%[0m
 timeout /t 7 /nobreak > NUL
 exit
+:Powershell
+chcp 437 > NUL 2>&1
+Powershell -command %*
+chcp 65001 > NUL 2>&1
+goto :eof
