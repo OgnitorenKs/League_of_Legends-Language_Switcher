@@ -79,6 +79,18 @@ set /p Value=►%R%[32m Select Language= %R%[0m
 	if %Error% EQU 2 (goto Finish)
 goto Select_Langugage
 :LOL_Start
+FOR %%g in (
+"RiotClientServices.exe"
+"RiotClientUx.exe"
+"LeagueClient.exe"
+"LeagueClientUx.exe"
+"LeagueClientUxRender.exe"
+"LeagueCrashHandler64.exe"
+"League of Legends.exe"
+) do (
+	taskkill /f /im %%g > NUL 2>&1
+)
+timeout /t 3 /nobreak > NUL
 "%LOL_Location:~0,-1%" --locale=%~1
 set Error=2
 goto :eof
